@@ -1,3 +1,5 @@
+var baseballRelated = false;
+
 walk(document.body);
 
 function walk(node)
@@ -12,7 +14,6 @@ function walk(node)
     return;
   }
 
-  console.log(node, 'node');
   switch ( node.nodeType )
   {
     case 1:  // Element
@@ -28,7 +29,11 @@ function walk(node)
       break;
 
     case 3: // Text node
-      handleText(node);
+      if (baseballRelated) {
+        handleText(node);
+      } else {
+        checkForBaseballContext(node);
+      }
       break;
   }
 }
@@ -36,6 +41,7 @@ function walk(node)
 function handleText(textNode)
 {
   var v = textNode.nodeValue;
+  console.log("true");
 
   v = v.replace(/\bhome run(s)?\b/g, "ding dong Johnson$1");
   v = v.replace(/\bHome run(s)?\b/g, "Ding dong Johnson$1");
@@ -51,6 +57,17 @@ function handleText(textNode)
   v = v.replace(/\bhr(s|S)?\b/g, "ddj$1");
 
   textNode.nodeValue = v;
+}
+
+function checkForBaseballContext(textNode)
+{
+  console.log("not true");
+  var v = textNode.nodeValue;
+
+  if (v.indexOf("baseball") > -1 || v.indexOf("home run") > -1 || v.indexOf("Home run") > -1) {
+    baseballRelated = true;
+  }
+
 }
 
 
